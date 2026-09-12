@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.Pinto" parent="android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/pinto_cream</item>
+        <item name="android:navigationBarColor">@color/pinto_cream</item>
+        <item name="android:colorAccent">@color/pinto_green</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>
