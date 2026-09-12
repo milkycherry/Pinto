@@ -45,7 +45,16 @@
 
 ## 技術情報
 
-- Java 17、Android framework API、SQLite
+フロントエンド
+- xmlで実装
+
+バックエンド
+- Java 17、Android framework API
+
+データベース
+- SQLite
+
+その他
 - 外部UIライブラリなし
 
 ## アプリ仕様
