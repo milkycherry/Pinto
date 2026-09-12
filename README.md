@@ -45,10 +45,13 @@
 
 ## 技術情報
 
-- Package: `dev.milky.pinto`
-- Android: minSdk 28 / targetSdk 35（Galaxy S25 / Android 15対応）
 - Java 17、Android framework API、SQLite
 - 外部UIライブラリなし
+
+## アプリ仕様
+
+- Package: `dev.milky.pinto`
+- Android: minSdk 28 / targetSdk 35（Galaxy S25 / Android 15対応）
 - 権限: 通知、端末再起動後の通知復元
 - Version: 1.2.1（versionCode 4）
 - APKサイズ: 76,813 bytes
