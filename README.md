@@ -64,8 +64,8 @@
 
 タスクはアプリ専用のSQLiteデータベースに保存されます。Pinto自体はネットワーク権限を持ちません。Androidのバックアップ設定が有効な場合は、OS標準のバックアップ／端末移行対象になることがあります。アプリを削除すると、復元できない場合があるためご注意ください。
 
-<img width="1080" height="2340" alt="Screenshot_20260912_090137_Pinto" src="https://github.com/user-attachments/assets/87162f99-022d-4404-babf-fb677e7c5cb3" />
+<img width="108" height="234" alt="Screenshot_20260912_090137_Pinto" src="https://github.com/user-attachments/assets/87162f99-022d-4404-babf-fb677e7c5cb3" />
 ↑メイン画面です。
 
-<img width="1080" height="2340" alt="Screenshot_20260912_090143_Pinto" src="https://github.com/user-attachments/assets/dc221280-4d48-41eb-94a3-00e9be32986a" />
+<img width="108" height="234" alt="Screenshot_20260912_090143_Pinto" src="https://github.com/user-attachments/assets/dc221280-4d48-41eb-94a3-00e9be32986a" />
 ↑入力画面です。
