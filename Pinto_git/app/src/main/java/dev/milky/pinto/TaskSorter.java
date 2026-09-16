@@ -5,20 +5,20 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * 保存済みタスクから、画面に表示するタスクの絞り込みと並べ替えを行うクラス。
- */
+/*
+  保存済みタスクから、画面に表示するタスクの絞り込みと並べ替えを行うクラス。
+*/
 public final class TaskSorter {
-    /** ホーム画面で選べる4種類の表示条件。 */
+    /* ホーム画面で選べる4種類の表示条件。 */
     public enum Filter { TODAY, UPCOMING, ALL, COMPLETED }
 
-    /** インスタンス化せず、staticメソッドだけを利用する。 */
+    /* インスタンス化せず、staticメソッドだけを利用する。 */
     private TaskSorter() {}
 
-    /**
-     * フィルターと検索語に一致するタスクを抽出し、期限・優先度順で返す。
-     * 元のリスト自体は変更しない。
-     */
+    /*
+      フィルターと検索語に一致するタスクを抽出し、期限・優先度順で返す。
+      元のリスト自体は変更しない。
+    */
     public static List<Task> filterAndSort(
             List<Task> source,
             Filter filter,
@@ -47,7 +47,7 @@ public final class TaskSorter {
         return result;
     }
 
-    /** 選択中フィルターに1件のタスクが含まれるかを判定する。 */
+    /* 選択中フィルターに1件のタスクが含まれるかを判定する。 */
     private static boolean matchesFilter(Task task, Filter filter, long today, long tomorrow) {
         switch (filter) {
             case TODAY:

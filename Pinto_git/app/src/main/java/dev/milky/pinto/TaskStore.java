@@ -9,22 +9,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * タスクを端末内SQLiteへ永続化するデータアクセスクラス。
- *
- * <p>SQLやCursorの知識をこのクラス内へ閉じ込め、他のクラスはTaskだけを扱えるようにする。</p>
- */
+/*
+  タスクを端末内SQLiteへ永続化するデータアクセスクラス。
+  
+  <p>SQLやCursorの知識をこのクラス内へ閉じ込め、他のクラスはTaskだけを扱えるようにする。</p>
+*/
 public final class TaskStore extends SQLiteOpenHelper {
-    /** データベースファイル名とスキーマの世代。 */
+    /* データベースファイル名とスキーマの世代。 */
     private static final String DB_NAME = "pinto.db";
     private static final int DB_VERSION = 2;
 
-    /** アプリ用のSQLiteOpenHelperを作る。 */
+    /* アプリ用のSQLiteOpenHelperを作る。 */
     public TaskStore(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    /** 初回起動時に、全タスク項目を持つtasksテーブルを作成する。 */
+    /* 初回起動時に、全タスク項目を持つtasksテーブルを作成する。 */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE tasks (" +
@@ -43,7 +43,7 @@ public final class TaskStore extends SQLiteOpenHelper {
                 ")");
     }
 
-    /** 古いアプリから更新したとき、不足している繰り返し項目を追加する。 */
+    /* 古いアプリから更新したとき、不足している繰り返し項目を追加する。 */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
@@ -53,7 +53,7 @@ public final class TaskStore extends SQLiteOpenHelper {
         }
     }
 
-    /** 新しいタスクを保存し、採番されたIDをTaskにも設定する。 */
+    /* 新しいタスクを保存し、採番されたIDをTaskにも設定する。 */
     public long insert(Task task) {
         SQLiteDatabase db = getWritableDatabase();
         task.id = db.insertOrThrow("tasks", null, values(task));
@@ -67,7 +67,7 @@ public final class TaskStore extends SQLiteOpenHelper {
         return task.id;
     }
 
-    /** 指定タスクの全項目をIDに基づいて更新する。 */
+    /* 指定タスクの全項目をIDに基づいて更新する。 */
     public void update(Task task) {
         if (task.repeatType == Task.REPEAT_DAILY && task.seriesId == null) {
             task.seriesId = task.id;
@@ -76,12 +76,12 @@ public final class TaskStore extends SQLiteOpenHelper {
                 new String[]{String.valueOf(task.id)});
     }
 
-    /** 指定IDのタスクを削除する。 */
+    /* 指定IDのタスクを削除する。 */
     public void delete(long id) {
         getWritableDatabase().delete("tasks", "id = ?", new String[]{String.valueOf(id)});
     }
 
-    /** 指定IDのタスクを1件取得し、存在しない場合はnullを返す。 */
+    /* 指定IDのタスクを1件取得し、存在しない場合はnullを返す。 */
     public Task get(long id) {
         try (Cursor cursor = getReadableDatabase().query(
                 "tasks", null, "id = ?", new String[]{String.valueOf(id)},
@@ -90,7 +90,7 @@ public final class TaskStore extends SQLiteOpenHelper {
         }
     }
 
-    /** 保存済みの全タスクを作成順で取得する。 */
+    /* 保存済みの全タスクを作成順で取得する。 */
     public List<Task> getAll() {
         List<Task> tasks = new ArrayList<>();
         try (Cursor cursor = getReadableDatabase().query(
@@ -100,10 +100,9 @@ public final class TaskStore extends SQLiteOpenHelper {
         return tasks;
     }
 
-    /**
-     * 完了状態を更新する。毎日タスクを完了した場合は、同じトランザクションで次回分も作る。
-     *
-     * @return 新しく作成した次回タスク。作成しなかった場合はnull。
+    /*
+      完了状態を更新する。毎日タスクを完了した場合は、同じトランザクションで次回分も作る。
+      @return 新しく作成した次回タスク。作成しなかった場合はnull。
      */
     public Task setCompleted(long id, boolean completed) {
         SQLiteDatabase db = getWritableDatabase();
@@ -144,7 +143,7 @@ public final class TaskStore extends SQLiteOpenHelper {
         }
     }
 
-    /** Taskの各フィールドをSQLiteへ渡せるContentValuesへ変換する。 */
+    /* Taskの各フィールドをSQLiteへ渡せるContentValuesへ変換する。 */
     private ContentValues values(Task task) {
         ContentValues values = new ContentValues();
         values.put("title", task.title.trim());
@@ -164,7 +163,7 @@ public final class TaskStore extends SQLiteOpenHelper {
         return values;
     }
 
-    /** 現在行のCursorからTaskを復元する。null可能な日時項目もここで変換する。 */
+    /* 現在行のCursorからTaskを復元する。null可能な日時項目もここで変換する。 */
     private Task fromCursor(Cursor cursor) {
         Task task = new Task();
         task.id = cursor.getLong(cursor.getColumnIndexOrThrow("id"));
@@ -186,7 +185,7 @@ public final class TaskStore extends SQLiteOpenHelper {
         return task;
     }
 
-    /** トランザクション中の同じDB接続を使って、指定IDのタスクを取得する。 */
+    /* トランザクション中の同じDB接続を使って、指定IDのタスクを取得する。 */
     private Task get(SQLiteDatabase db, long id) {
         try (Cursor cursor = db.query("tasks", null, "id = ?",
                 new String[]{String.valueOf(id)}, null, null, null)) {
@@ -194,7 +193,7 @@ public final class TaskStore extends SQLiteOpenHelper {
         }
     }
 
-    /** 同じ系列・同じ期限のタスクがすでに存在するかを調べ、重複作成を防ぐ。 */
+    /* 同じ系列・同じ期限のタスクがすでに存在するかを調べ、重複作成を防ぐ。 */
     private boolean hasOccurrence(SQLiteDatabase db, Long seriesId, long dueAt) {
         if (seriesId == null) return false;
         try (Cursor cursor = db.query("tasks", new String[]{"id"},

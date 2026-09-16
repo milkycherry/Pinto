@@ -5,14 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-/**
- * タスクの通知時刻をAndroidのAlarmManagerへ登録・延期・解除するクラス。
- */
+/*
+  タスクの通知時刻をAndroidのAlarmManagerへ登録・延期・解除するクラス。
+*/
 public final class AlarmScheduler {
-    /** インスタンス化せず、staticメソッドだけを利用する。 */
+    /* インスタンス化せず、staticメソッドだけを利用する。 */
     private AlarmScheduler() {}
 
-    /** 未完了かつ未来に通知時刻があるタスクだけをAlarmManagerへ登録する。 */
+    /* 未完了かつこれからに通知時刻があるタスクだけをAlarmManagerへ登録する。 */
     public static void schedule(Context context, Task task) {
         cancel(context, task.id);
         if (task.completed || task.dueAt == null) return;
@@ -29,7 +29,7 @@ public final class AlarmScheduler {
         );
     }
 
-    /** 指定した待ち時間の後に、同じタスクをもう一度通知する。 */
+    /* 指定した待ち時間の後に、同じタスクをもう一度通知する。 */
     public static void snooze(Context context, long taskId, long delayMillis) {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         manager.setAndAllowWhileIdle(
@@ -39,13 +39,13 @@ public final class AlarmScheduler {
         );
     }
 
-    /** 指定タスクの予約済み通知を解除する。 */
+    /* 指定タスクの予約済み通知を解除する。 */
     public static void cancel(Context context, long taskId) {
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent(context, taskId, ReminderReceiver.ACTION_REMIND));
     }
 
-    /** 通知・完了・スヌーズの操作をBroadcastReceiverへ届けるPendingIntentを作る。 */
+    /* 通知・完了・スヌーズの操作をBroadcastReceiverへ届けるPendingIntentを作る。 */
     public static PendingIntent pendingIntent(Context context, long taskId, String action) {
         Intent intent = new Intent(context, ReminderReceiver.class)
                 .setAction(action)
@@ -58,7 +58,7 @@ public final class AlarmScheduler {
         );
     }
 
-    /** 同じタスクでも操作種別ごとに衝突しないrequestCodeを作る。 */
+    /* 同じタスクでも操作種別ごとに衝突しないrequestCodeを作る。 */
     private static int requestCode(long taskId, String action) {
         int base = (int) (taskId & 0x3fffffff);
         if (ReminderReceiver.ACTION_COMPLETE.equals(action)) return base | 0x40000000;

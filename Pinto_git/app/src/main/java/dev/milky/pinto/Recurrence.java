@@ -2,14 +2,14 @@ package dev.milky.pinto;
 
 import java.time.LocalDateTime;
 
-/**
- * 繰り返しタスクについて、次に作成すべき期限を計算するクラス。
- */
+/*
+  繰り返しタスクについて、次に作成すべき期限を計算するクラス。
+*/
 public final class Recurrence {
-    /** インスタンス化せず、staticメソッドだけを利用する。 */
+    /* インスタンス化せず、staticメソッドだけを利用する。 */
     private Recurrence() {}
 
-    /** 毎日タスクの次回期限を返し、終了日を越える場合はnullを返す。 */
+    /* 毎日タスクの次回期限を返し、終了日を越える場合はnullを返す。 */
     public static Long nextDue(Task task) {
         if (task.repeatType != Task.REPEAT_DAILY || task.dueAt == null || task.repeatEnd == null) {
             return null;

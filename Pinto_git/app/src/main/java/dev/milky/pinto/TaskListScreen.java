@@ -26,54 +26,54 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * ホーム画面の表示と、検索・絞り込み・タスク行の操作をまとめるクラス。
- *
- * <p>データの保存は行わず、利用者の操作を {@link Listener} 経由でMainActivityへ通知する。</p>
- */
+/*
+  ホーム画面の表示と、検索・絞り込み・タスク行の操作をまとめるクラス。
+  
+  <p>データの保存は行わず、利用者の操作を {@link Listener} 経由でMainActivityへ通知する。</p>
+*/
 final class TaskListScreen {
-    /**
-     * 一覧画面で発生した操作を、保存処理の担当へ渡すための窓口。
+    /*
+      一覧画面で発生した操作を、保存処理の担当へ渡すための窓口。
      */
     interface Listener {
-        /** 新しいタスクの入力画面を開くよう依頼する。 */
+        /* 新しいタスクの入力画面を開くよう依頼する。 */
         void onAddTaskRequested();
 
-        /** 指定タスクの編集画面を開くよう依頼する。 */
+        /* 指定タスクの編集画面を開くよう依頼する。 */
         void onEditTaskRequested(Task task);
 
-        /** 指定タスクの完了状態を変更するよう依頼する。 */
+        /* 指定タスクの完了状態を変更するよう依頼する。 */
         void onTaskCompletionChanged(Task task, boolean completed);
 
-        /** 指定タスクの優先度を変更するよう依頼する。 */
+        /* 指定タスクの優先度を変更するよう依頼する。 */
         void onTaskPriorityChanged(Task task, int priority);
 
-        /** 指定タスクを削除するよう依頼する。 */
+        /* 指定タスクを削除するよう依頼する。 */
         void onDeleteTaskRequested(Task task);
     }
 
-    /** Android標準部品の生成に使うActivity。 */
+    /* Android標準部品の生成に使うActivity。 */
     private final Activity activity;
 
-    /** 一覧画面の操作を受け取る相手。 */
+    /* 一覧画面の操作を受け取る相手。 */
     private final Listener listener;
 
-    /** Pinto共通の色・余白・部品を生成する補助クラス。 */
+    /* Pinto共通の色・余白・部品を生成する補助クラス。 */
     private final PintoViewFactory ui;
 
-    /** Activityへそのまま渡せるホーム画面の最上位View。 */
+    /* Activityへそのまま渡せるホーム画面の最上位View。 */
     private final FrameLayout rootView;
 
-    /** フィルターごとの選択状態を更新するために保持するボタン。 */
+    /* フィルターごとの選択状態を更新するために保持するボタン。 */
     private final Map<TaskSorter.Filter, Button> filterButtons = new LinkedHashMap<>();
 
-    /** 現在の検索・絞り込みに使う、保存済みタスクのスナップショット。 */
+    /* 現在の検索・絞り込みに使う、保存済みタスクのスナップショット。 */
     private List<Task> tasks = Collections.emptyList();
 
-    /** 現在選択されている一覧フィルター。 */
+    /* 現在選択されている一覧フィルター。 */
     private TaskSorter.Filter currentFilter = TaskSorter.Filter.TODAY;
 
-    /** 描画後に値を更新するホーム画面の部品。 */
+    /* 描画後に値を更新するホーム画面の部品。 */
     private LinearLayout listContainer;
     private EditText searchInput;
     private TextView summaryTitle;
@@ -82,7 +82,7 @@ final class TaskListScreen {
     private TextView listSectionTitle;
     private TextView listSectionCount;
 
-    /** 一覧画面を組み立て、操作の通知先を設定する。 */
+    /* 一覧画面を組み立て、操作の通知先を設定する。 */
     TaskListScreen(Activity activity, Listener listener) {
         this.activity = activity;
         this.listener = listener;
@@ -90,19 +90,19 @@ final class TaskListScreen {
         this.rootView = buildScreen();
     }
 
-    /** Activityのコンテンツとして使う最上位Viewを返す。 */
+    /* Activityのコンテンツとして使う最上位Viewを返す。 */
     View getRootView() {
         return rootView;
     }
 
-    /** 最新のタスク一覧を受け取り、集計カードと表示行を描き直す。 */
+    /* 最新のタスク一覧を受け取り、集計カードと表示行を描き直す。 */
     void render(List<Task> source) {
         tasks = new ArrayList<>(source);
         updateSummary();
         renderTaskList();
     }
 
-    /** ヘッダーから追加ボタンまでを含むホーム画面全体を作る。 */
+    /* ヘッダーから追加ボタンまでを含むホーム画面全体を作る。 */
     private FrameLayout buildScreen() {
         FrameLayout root = new FrameLayout(activity);
         root.setBackgroundColor(PintoViewFactory.CREAM);
@@ -147,7 +147,7 @@ final class TaskListScreen {
         return root;
     }
 
-    /** アプリアイコン、日付、短いキャッチコピーを含むヘッダーを作る。 */
+    /* アプリアイコン、日付、短いキャッチコピーを含むヘッダーを作る。 */
     private View buildHeader() {
         LinearLayout row = ui.horizontal();
         row.setGravity(Gravity.CENTER_VERTICAL);
@@ -174,7 +174,7 @@ final class TaskListScreen {
         return row;
     }
 
-    /** 今日の残件数と完了率を示す集計カードを作る。 */
+    /* 今日の残件数と完了率を示す集計カードを作る。 */
     private View buildSummaryCard() {
         LinearLayout card = ui.vertical();
         card.setPadding(ui.dp(20), ui.dp(18), ui.dp(20), ui.dp(18));
@@ -202,7 +202,7 @@ final class TaskListScreen {
         return card;
     }
 
-    /** 今日・これから・すべて・完了を切り替えるフィルターボタンを作る。 */
+    /* 今日・これから・すべて・完了を切り替えるフィルターボタンを作る。 */
     private View buildFilters() {
         HorizontalScrollView scroll = new HorizontalScrollView(activity);
         scroll.setHorizontalScrollBarEnabled(false);
@@ -217,7 +217,7 @@ final class TaskListScreen {
         return scroll;
     }
 
-    /** タイトルとメモを対象にする検索入力欄を作る。 */
+    /* タイトルとメモを対象にする検索入力欄を作る。 */
     private View buildSearch() {
         searchInput = new EditText(activity);
         searchInput.setSingleLine(true);
@@ -230,7 +230,7 @@ final class TaskListScreen {
         searchInput.setBackground(ui.strokedRoundRect(
                 PintoViewFactory.PAPER, PintoViewFactory.LINE, ui.dp(15), 1));
         searchInput.addTextChangedListener(new SimpleTextWatcher() {
-            /** 入力が変わるたび、現在のタスクから該当行だけを再描画する。 */
+            /* 入力が変わるたび、現在のタスクから該当行だけを再描画する。 */
             @Override
             public void afterTextChanged(Editable editable) {
                 renderTaskList();
@@ -239,7 +239,7 @@ final class TaskListScreen {
         return searchInput;
     }
 
-    /** タスク一覧の見出しと件数表示を作る。 */
+    /* タスク一覧の見出しと件数表示を作る。 */
     private View buildListHeader() {
         LinearLayout row = ui.horizontal();
         row.setGravity(Gravity.CENTER_VERTICAL);
@@ -256,7 +256,7 @@ final class TaskListScreen {
         return row;
     }
 
-    /** フィルター1個分のボタンを追加し、選択時に一覧を更新する。 */
+    /* フィルター1個分のボタンを追加し、選択時に一覧を更新する。 */
     private void addFilterChip(
             LinearLayout row,
             TaskSorter.Filter filter,
@@ -281,7 +281,7 @@ final class TaskListScreen {
         filterButtons.put(filter, button);
     }
 
-    /** 選択中のフィルターだけを濃い緑色にして、現在位置を見分けやすくする。 */
+    /* 選択中のフィルターだけを濃い緑色にして、現在位置を見分けやすくする。 */
     private void updateFilterButtons() {
         for (Map.Entry<TaskSorter.Filter, Button> entry : filterButtons.entrySet()) {
             boolean selected = entry.getKey() == currentFilter;
@@ -299,7 +299,7 @@ final class TaskListScreen {
         }
     }
 
-    /** 全タスクから今日の残件数と完了率を計算し、集計カードへ反映する。 */
+    /* 全タスクから今日の残件数と完了率を計算し、集計カードへ反映する。 */
     private void updateSummary() {
         long today = TimeUtils.startOfToday();
         long tomorrow = TimeUtils.startOfTomorrow();
@@ -330,7 +330,7 @@ final class TaskListScreen {
         summaryProgress.setProgress(percent, true);
     }
 
-    /** 検索語とフィルターに一致するタスクだけを並べ直して表示する。 */
+    /* 検索語とフィルターに一致するタスクだけを並べ直して表示する。 */
     private void renderTaskList() {
         if (listContainer == null) return;
         String query = searchInput == null ? "" : searchInput.getText().toString();
@@ -355,7 +355,7 @@ final class TaskListScreen {
         }
     }
 
-    /** 選択中のフィルターに対応する一覧見出しを返す。 */
+    /* 選択中のフィルターに対応する一覧見出しを返す。 */
     private String filterSectionTitle() {
         switch (currentFilter) {
             case UPCOMING:
@@ -370,7 +370,7 @@ final class TaskListScreen {
         }
     }
 
-    /** 該当タスクがない場合の案内と、次に行いやすい操作ボタンを作る。 */
+    /* 該当タスクがない場合の案内と、次に行いやすい操作ボタンを作る。 */
     private View buildEmptyState() {
         LinearLayout empty = ui.vertical();
         empty.setGravity(Gravity.CENTER);
@@ -434,7 +434,7 @@ final class TaskListScreen {
         return empty;
     }
 
-    /** 1件分の完了チェック・内容・優先度・メニューを含むカードを作る。 */
+    /* 1件分の完了チェック・内容・優先度・メニューを含むカードを作る。 */
     private View buildTaskRow(Task task) {
         LinearLayout card = ui.horizontal();
         card.setGravity(Gravity.CENTER_VERTICAL);
@@ -513,7 +513,7 @@ final class TaskListScreen {
         return card;
     }
 
-    /** 数値の優先度を「高・中・低」の色付きラベルへ変換する。 */
+    /* 数値の優先度を「高・中・低」の色付きラベルへ変換する。 */
     private TextView priorityLabel(int priority) {
         String label;
         int foreground;
@@ -539,7 +539,7 @@ final class TaskListScreen {
         return view;
     }
 
-    /** タスク行の三点ボタンから、編集・優先度変更・削除メニューを表示する。 */
+    /* タスク行の三点ボタンから、編集・優先度変更・削除メニューを表示する。 */
     private void showTaskMenu(View anchor, Task task) {
         PopupMenu popup = new PopupMenu(activity, anchor);
         popup.getMenu().add("編集");
@@ -565,15 +565,15 @@ final class TaskListScreen {
         popup.show();
     }
 
-    /**
-     * TextWatcherのうち今回使わない前後イベントを空実装にし、入力後だけを書けるようにする。
-     */
+    /*
+      TextWatcherのうち今回使わない前後イベントを空実装にし、入力後だけを書けるようにする。
+    */
     private abstract static class SimpleTextWatcher implements TextWatcher {
-        /** 入力変更前の処理は不要。 */
+        /* 入力変更前の処理は不要。 */
         @Override
         public void beforeTextChanged(CharSequence text, int start, int count, int after) {}
 
-        /** 入力途中の処理は不要。 */
+        /* 入力途中の処理は不要。 */
         @Override
         public void onTextChanged(CharSequence text, int start, int before, int count) {}
     }

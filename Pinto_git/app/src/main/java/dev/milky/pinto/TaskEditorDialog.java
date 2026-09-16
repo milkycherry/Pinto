@@ -25,44 +25,44 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * タスクの追加・編集に必要な入力欄と選択処理をまとめるダイアログ。
- *
- * <p>入力値の検証までを担当し、データベース保存は {@link Listener} へ依頼する。</p>
- */
+/*
+  タスクの追加・編集に必要な入力欄と選択処理をまとめるダイアログ。
+  
+  <p>入力値の検証までを担当し、データベース保存は {@link Listener} へ依頼する。</p>
+*/
 final class TaskEditorDialog {
-    /**
-     * 編集結果を、保存処理を持つMainActivityへ渡すための窓口。
-     */
+    /*
+      編集結果を、保存処理を持つMainActivityへ渡すための窓口。
+    */
     interface Listener {
-        /** 検証済みタスクを追加または更新するよう依頼する。 */
+        /* 検証済みタスクを追加または更新するよう依頼する。 */
         void onTaskSaved(Task task, boolean isNewTask);
 
-        /** 編集中のタスクを削除するよう依頼する。 */
+        /* 編集中のタスクを削除するよう依頼する。 */
         void onDeleteTaskRequested(Task task);
     }
 
-    /** Android標準ダイアログや日時選択画面を表示するActivity。 */
+    /* Android標準ダイアログや日時選択画面を表示するActivity。 */
     private final Activity activity;
 
-    /** 保存・削除依頼を受け取る相手。 */
+    /* 保存・削除依頼を受け取る相手。 */
     private final Listener listener;
 
-    /** Pinto共通の入力欄・ボタン・余白を生成する補助クラス。 */
+    /* Pinto共通の入力欄・ボタン・余白を生成する補助クラス。 */
     private final PintoViewFactory ui;
 
-    /** 編集ダイアログの通知先と共通UI生成を初期化する。 */
+    /* 編集ダイアログの通知先と共通UI生成を初期化する。 */
     TaskEditorDialog(Activity activity, Listener listener) {
         this.activity = activity;
         this.listener = listener;
         this.ui = new PintoViewFactory(activity);
     }
 
-    /**
-     * 新規追加または既存タスク編集のダイアログを表示する。
-     *
-     * @param existing 編集対象。nullの場合は新規タスクとして開く。
-     */
+    /*
+    新規追加または既存タスク編集のダイアログを表示する。
+    
+    @param existing 編集対象。nullの場合は新規タスクとして開く。
+    */
     void show(Task existing) {
         // 保存済みオブジェクトを入力途中で書き換えないよう、編集用コピーを使う。
         Task draft = existing == null ? new Task() : existing.copy();
@@ -313,7 +313,7 @@ final class TaskEditorDialog {
         titleInput.requestFocus();
     }
 
-    /** 画面下から開く編集パネルとして、幅・位置・背景の暗さを設定する。 */
+    /* 画面下から開く編集パネルとして、幅・位置・背景の暗さを設定する。 */
     private void configureWindow(Dialog dialog, ScrollView content) {
         dialog.setContentView(content);
         Window window = dialog.getWindow();
@@ -337,7 +337,7 @@ final class TaskEditorDialog {
         });
     }
 
-    /** 選択中の優先度を色と太字で強調する。 */
+    /* 選択中の優先度を色と太字で強調する。 */
     private void stylePriorityChoices(List<Button> buttons, int selectedPriority) {
         for (int index = 0; index < buttons.size(); index++) {
             Button button = buttons.get(index);
@@ -363,7 +363,7 @@ final class TaskEditorDialog {
         }
     }
 
-    /** 選択中の繰り返し方法を緑色で強調する。 */
+    /* 選択中の繰り返し方法を緑色で強調する。 */
     private void styleRepeatChoices(List<Button> buttons, int selectedRepeat) {
         for (int index = 0; index < buttons.size(); index++) {
             Button button = buttons.get(index);
@@ -380,7 +380,7 @@ final class TaskEditorDialog {
         }
     }
 
-    /** 日付を選んだ後に時刻を選び、期限をミリ秒へ変換して保持する。 */
+    /* 日付を選んだ後に時刻を選び、期限をミリ秒へ変換して保持する。 */
     private void showDateTimePicker(Long[] selectedDue, Button dueButton) {
         LocalDateTime initial = selectedDue[0] == null
                 ? TimeUtils.toLocalDateTime(TimeUtils.defaultTaskDue())
@@ -407,13 +407,13 @@ final class TaskEditorDialog {
         datePicker.show();
     }
 
-    /** 今日・明日・週末のショートカットを20時の期限へ変換する。 */
+    /* 今日・明日・週末のショートカットを20時の期限へ変換する。 */
     private void setDueShortcut(Long[] selectedDue, Button button, LocalDate date) {
         selectedDue[0] = TimeUtils.atDateAndTime(date, 20, 0);
         button.setText(dueButtonText(selectedDue[0]));
     }
 
-    /** 繰り返し終了日を選び、その日の23:59:59までを有効範囲にする。 */
+    /* 繰り返し終了日を選び、その日の23:59:59までを有効範囲にする。 */
     private void showRepeatEndPicker(
             Long[] selectedDue,
             Long[] selectedEnd,
@@ -442,14 +442,14 @@ final class TaskEditorDialog {
         picker.show();
     }
 
-    /** 期限選択ボタンに表示する文言を作る。 */
+    /* 期限選択ボタンに表示する文言を作る。 */
     private String dueButtonText(Long dueAt) {
         return dueAt == null
                 ? "期限を設定しない"
                 : TimeUtils.relativeDue(dueAt) + "  ▾";
     }
 
-    /** 繰り返し終了日ボタンに表示する文言を作る。 */
+    /* 繰り返し終了日ボタンに表示する文言を作る。 */
     private String repeatEndButtonText(Long repeatEnd) {
         return repeatEnd == null
                 ? "終了日を選ぶ"

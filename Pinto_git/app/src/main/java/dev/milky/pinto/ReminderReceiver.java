@@ -10,9 +10,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-/**
- * AlarmManagerや通知ボタンからのBroadcastを受け取り、通知・延期・完了を処理するReceiver。
- */
+/*
+  AlarmManagerや通知ボタンからのBroadcastを受け取り、通知・延期・完了を処理するReceiver。
+*/
 public final class ReminderReceiver extends BroadcastReceiver {
     /** PendingIntentで処理の種類と対象タスクを識別するための定数。 */
     public static final String ACTION_REMIND = "dev.milky.pinto.action.REMIND";
@@ -21,7 +21,7 @@ public final class ReminderReceiver extends BroadcastReceiver {
     public static final String EXTRA_TASK_ID = "task_id";
     private static final String CHANNEL_ID = "task_reminders";
 
-    /** Intentのactionに応じて、スヌーズ・完了・通常通知へ処理を振り分ける。 */
+    /* Intentのactionに応じて、スヌーズ・完了・通常通知へ処理を振り分ける。 */
     @Override
     public void onReceive(Context context, Intent intent) {
         long taskId = intent.getLongExtra(EXTRA_TASK_ID, -1);
@@ -54,7 +54,7 @@ public final class ReminderReceiver extends BroadcastReceiver {
         showNotification(context, notifications, task);
     }
 
-    /** タスク内容と「10分後」「完了」アクションを含む通知を表示する。 */
+    /* タスク内容と「10分後」「完了」アクションを含む通知を表示する。 */
     private void showNotification(Context context, NotificationManager manager, Task task) {
         ensureChannel(context, manager);
         if (Build.VERSION.SDK_INT >= 33
@@ -87,7 +87,7 @@ public final class ReminderReceiver extends BroadcastReceiver {
         manager.notify(notificationId(task.id), notification);
     }
 
-    /** 高い重要度のリマインダー通知チャンネルを作成する。既存の場合は再利用される。 */
+    /* 高い重要度のリマインダー通知チャンネルを作成する。既存の場合は再利用される。 */
     public static void ensureChannel(Context context, NotificationManager manager) {
         NotificationChannel channel = new NotificationChannel(
                 CHANNEL_ID,
@@ -98,7 +98,7 @@ public final class ReminderReceiver extends BroadcastReceiver {
         manager.createNotificationChannel(channel);
     }
 
-    /** long型のタスクIDを、通知APIで使える正のintへ変換する。 */
+    /* long型のタスクIDを、通知APIで使える正のintへ変換する。 */
     private static int notificationId(long taskId) {
         return (int) (taskId & 0x7fffffff);
     }

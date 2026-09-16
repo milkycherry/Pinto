@@ -10,11 +10,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-/**
- * Pintoで繰り返し使う色・余白・入力欄などを生成するUI部品工場。
- *
- * <p>画面クラスが細かな装飾コードを持たず、表示内容と操作の流れに集中できるようにする。</p>
- */
+/*
+  Pintoで繰り返し使う色・余白・入力欄などを生成するUI部品工場。
+  <p>画面クラスが細かな装飾コードを持たず、表示内容と操作の流れに集中できるようにする。</p>
+*/
 final class PintoViewFactory {
     /** アプリ全体で共有するカラーパレット。 */
     static final int CREAM = Color.rgb(247, 244, 238);
@@ -28,29 +27,29 @@ final class PintoViewFactory {
     static final int RED_SOFT = Color.rgb(249, 231, 228);
     static final int LINE = Color.rgb(226, 223, 214);
 
-    /** 端末密度やAndroid標準部品を参照するためのContext。 */
+    /* 端末密度やAndroid標準部品を参照するためのContext。 */
     private final Context context;
 
-    /** 指定画面のContextに合わせたUI部品工場を作る。 */
+    /* 指定画面のContextに合わせたUI部品工場を作る。 */
     PintoViewFactory(Context context) {
         this.context = context;
     }
 
-    /** 子要素を上から下へ並べるレイアウトを作る。 */
+    /* 子要素を上から下へ並べるレイアウトを作る。 */
     LinearLayout vertical() {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
         return layout;
     }
 
-    /** 子要素を左から右へ並べるレイアウトを作る。 */
+    /* 子要素を左から右へ並べるレイアウトを作る。 */
     LinearLayout horizontal() {
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.HORIZONTAL);
         return layout;
     }
 
-    /** Pinto共通の文字設定を適用したTextViewを作る。 */
+    /* Pinto共通の文字設定を適用したTextViewを作る。 */
     TextView text(String value, float size, int color, int style) {
         TextView view = new TextView(context);
         view.setText(value);
@@ -61,12 +60,12 @@ final class PintoViewFactory {
         return view;
     }
 
-    /** 入力欄の上に表示する小さな見出しを作る。 */
+    /* 入力欄の上に表示する小さな見出しを作る。 */
     TextView fieldLabel(String value) {
         return text(value, 13, MUTED, Typeface.BOLD);
     }
 
-    /** 枠線と余白を統一したテキスト入力欄を作る。 */
+    /* 枠線と余白を統一したテキスト入力欄を作る。 */
     EditText fieldInput(String hint, boolean singleLine) {
         EditText input = new EditText(context);
         input.setHint(hint);
@@ -79,7 +78,7 @@ final class PintoViewFactory {
         return input;
     }
 
-    /** 閉じる・削除・メニューなどに使う装飾の少ないボタンを作る。 */
+    /* 閉じる・削除・メニューなどに使う装飾の少ないボタンを作る。 */
     Button compactButton(String value) {
         Button button = new Button(context);
         button.setText(value);
@@ -93,7 +92,7 @@ final class PintoViewFactory {
         return button;
     }
 
-    /** 日付や優先度など、選択肢に使う枠付きボタンを作る。 */
+    /* 日付や優先度など、選択肢に使う枠付きボタンを作る。 */
     Button choiceButton(String value) {
         Button button = compactButton(value);
         button.setTextSize(14);
@@ -101,21 +100,21 @@ final class PintoViewFactory {
         return button;
     }
 
-    /** ショートカット用に文字を小さくした選択ボタンを作る。 */
+    /* ショートカット用に文字を小さくした選択ボタンを作る。 */
     Button miniChoice(String value) {
         Button button = choiceButton(value);
         button.setTextSize(12);
         return button;
     }
 
-    /** 横一列の選択肢を同じ幅で配置するためのLayoutParamsを作る。 */
+    /* 横一列の選択肢を同じ幅で配置するためのLayoutParamsを作る。 */
     LinearLayout.LayoutParams weightedChoiceParams() {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, dp(44), 1f);
         params.setMarginEnd(dp(6));
         return params;
     }
 
-    /** 上側だけに指定余白を持つ、横幅いっぱいのLayoutParamsを作る。 */
+    /* 上側だけに指定余白を持つ、横幅いっぱいのLayoutParamsを作る。 */
     LinearLayout.LayoutParams marginTop(int value) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -123,7 +122,7 @@ final class PintoViewFactory {
         return params;
     }
 
-    /** 開始側だけに指定余白を持つLayoutParamsを作る。 */
+    /* 開始側だけに指定余白を持つLayoutParamsを作る。 */
     LinearLayout.LayoutParams marginStart(int value) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -131,7 +130,7 @@ final class PintoViewFactory {
         return params;
     }
 
-    /** 単色の角丸背景を作る。 */
+    /* 単色の角丸背景を作る。 */
     GradientDrawable roundRect(int color, int radius) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setColor(color);
@@ -139,14 +138,14 @@ final class PintoViewFactory {
         return drawable;
     }
 
-    /** 枠線付きの角丸背景を作る。 */
+    /* 枠線付きの角丸背景を作る。 */
     GradientDrawable strokedRoundRect(int color, int strokeColor, int radius, int strokeDp) {
         GradientDrawable drawable = roundRect(color, radius);
         drawable.setStroke(dp(strokeDp), strokeColor);
         return drawable;
     }
 
-    /** 端末の画面密度に合わせてdpを実ピクセルへ変換する。 */
+    /* 端末の画面密度に合わせてdpを実ピクセルへ変換する。 */
     int dp(int value) {
         return Math.round(value * context.getResources().getDisplayMetrics().density);
     }
